@@ -1,56 +1,56 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { BiShow, BiHide } from "react-icons/bi"; // 👈 Boxicons React icons
 import "./Auth.css";
 
 const Login = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false); // 👈 password toggle
 
-const handleLogin = async (e) => {
-  e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  if (!user.email || !user.password) {
-    alert("Please enter both email and password.");
-    return;
-  }
-
- try {
-  const response = await fetch("http://localhost:3000/api/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      username: user.email,  // ya email, backend k hisab se
-      password: user.password,
-    }),
-  });
-
-  console.log("Response status:", response.status);   // 👈 ye print karega status code
-  const data = await response.json();
-  console.log("API Response:", data);                 // 👈 ye print karega backend ka JSON
-
-  if (response.ok && data.result && data.result.length > 0) {
-    const loggedInUser = data.result[0];
-    alert("Login Successful!");
-
-    if (loggedInUser.role === "admin") {
-      navigate("/admin/dashboard");
-    } else if (loggedInUser.role === "officer") {
-      navigate("/officer/dashboard");
-    } else {
-      navigate("/student/dashboard");
+    if (!user.email || !user.password) {
+      alert("Please enter both email and password.");
+      return;
     }
-  } else {
-    alert("Invalid email or password!");
-  }
-} catch (error) {
-  console.error("Fetch Error:", error);  // 👈 exact error console me aayega
-  alert("Something went wrong, please try again!");
-}
 
-};
+    try {
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: user.email,  // ya email, backend k hisab se
+          password: user.password,
+        }),
+      });
 
+      console.log("Response status:", response.status);
+      const data = await response.json();
+      console.log("API Response:", data);
+
+      if (response.ok && data.result && data.result.length > 0) {
+        const loggedInUser = data.result[0];
+        alert("Login Successful!");
+
+        if (loggedInUser.role === "admin") {
+          navigate("/admin/dashboard");
+        } else if (loggedInUser.role === "officer") {
+          navigate("/officer/dashboard");
+        } else {
+          navigate("/student/dashboard");
+        }
+      } else {
+        alert("Invalid email or password!");
+      }
+    } catch (error) {
+      console.error("Fetch Error:", error);
+      alert("Something went wrong, please try again!");
+    }
+  };
 
   return (
     <div className="auth-container">
@@ -66,12 +66,22 @@ const handleLogin = async (e) => {
               value={user.email}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
-            <input
-              type="password"
-              placeholder="Password"
-              value={user.password}
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
-            />
+
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"} // 👈 toggle type
+                placeholder="Password"
+                value={user.password}
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
+              />
+              <span
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <BiHide /> : <BiShow />}
+              </span>
+            </div>
+
             <button type="submit" className="btn">Log In</button>
           </form>
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { BiShow, BiHide } from "react-icons/bi"; // 👈 Boxicons React icons
 import "./Auth.css";
 
 const Register = () => {
@@ -10,6 +11,9 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false); // 👈 toggle for password
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // 👈 toggle for confirm password
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -71,20 +75,39 @@ const Register = () => {
               value={user.email}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
-            <input
-              type="password"
-              placeholder="Password"
-              value={user.password}
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
-            />
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              value={user.confirmPassword}
-              onChange={(e) =>
-                setUser({ ...user, confirmPassword: e.target.value })
-              }
-            />
+
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={user.password}
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
+              />
+              <span
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <BiHide /> : <BiShow />}
+              </span>
+            </div>
+
+            <div className="password-wrapper">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirm Password"
+                value={user.confirmPassword}
+                onChange={(e) =>
+                  setUser({ ...user, confirmPassword: e.target.value })
+                }
+              />
+              <span
+                className="password-toggle"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <BiHide /> : <BiShow />}
+              </span>
+            </div>
+
             <button type="submit" className="btn">Register</button>
           </form>
 
