@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import "./OfficerLayout.css"; // styling ke liye
+import "./OfficerLayout.css"; 
 
 const OfficerLayout = () => {
   return (
@@ -12,7 +12,7 @@ const OfficerLayout = () => {
           <NavLink to="/officer/dashboard">Dashboard</NavLink>
           <NavLink to="/officer/post-job">Post Job</NavLink>
           <NavLink to="/officer/view-students">View Students</NavLink>
-          <NavLink to="/officer/view-applied">View Applied Status</NavLink>
+          <NavLink to="/officer/view-applied-status">View Applied Status</NavLink>
           <NavLink to="/officer/update-status">Update Status</NavLink>
         </nav>
       </aside>
