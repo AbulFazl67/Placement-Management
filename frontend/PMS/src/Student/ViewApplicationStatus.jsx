@@ -10,3 +10,4 @@ const ViewApplicationStatus = () => {
 };
 
 export default ViewApplicationStatus;
+
