@@ -16,11 +16,24 @@ app.post('/api/login' , (req , res)=>{
 
 
 app.post('/api/signup' , (req, res)=>{
-    const {name , email , password , role}=req.body
+    const {name , email , password , role , skills, job_preference ,placed}=req.body
     const sql ="insert into users(name , email ,password , role) values(?,?,?,?)"
     connection.execute(sql,[name , email ,password , role] , (err , result)=>{
         if(!err){
-            res.status(200).send({result:`User ${name} successfully for the role = > ${role}`})
+            if(role==="student"){
+                const studentQuery = "insert into student_profile (student_id, skills, job_preference, placed) values (?, ?, ? , ?)";
+                connection.execute(studentQuery, [result.user_id, skills, job_preference , placed], (studentErr, studentResult) => {
+                    if(studentErr){
+                        console.error("Error inserting into students table:", studentErr);
+                    }else{
+                        console.log("Student record created successfully:", studentResult);
+                    }
+                })
+            }else{
+                res.status(200).send({result:`User ${name} successfully for the role = > ${role}`})
+            }
+
+            
         }else[
             res.status(500).send({error:err})
         ]

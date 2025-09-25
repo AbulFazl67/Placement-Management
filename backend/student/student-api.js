@@ -17,3 +17,17 @@ app.post('/api/student-register' , (req , res)=>{
     })
     
 })
+
+app.post('/api/applyJobs' , (req , res)=>{
+    const {student_id , job_id} = {...req.body}
+    console.warn(req.body)
+     const query = "INSERT INTO applications (student_id, job_id, status) VALUES (?, ?, ?)";
+    db.execute(query, [student_id , job_id , "Applied"], (err, results) => {
+        if(err){
+            console.warn(err)
+            res.status(500).json({error:err})
+        }else{
+             res.status(200).json({data:"Job Applied Successfully"})
+        }
+    })
+})
