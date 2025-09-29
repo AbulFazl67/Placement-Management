@@ -1,14 +1,31 @@
-import React, { useState } from "react";
+import React, { useState  , useEffect} from "react";
 import "./P-Dept.css";
 
 const PostJob = () => {
+
+    const [userInfo, setUserInfo] = useState(null)
   const [formData, setFormData] = useState({
-    officer_id: "",
+    officer_id:"",
     title: "",
     description: "",
     criteria: "",
     apply_link: ""
   });
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser); // string -> object
+      setUserInfo(parsedUser);
+
+      // agar officer_id chahiye to direct set kar do
+      setFormData((prev) => ({
+        ...prev,
+        officer_id: parsedUser.id || parsedUser.officer_id || "" 
+      }));
+    }
+  }, []);
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
