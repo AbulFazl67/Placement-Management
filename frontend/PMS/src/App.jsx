@@ -20,6 +20,7 @@ import AdminLayout from './Admin/AdminLayout';
 import AdminDashboard from './Admin/AdminDashboard';
 import AdminViewJobs from './Admin/AdminViewJobs';
 import AdminViewStatus from './Admin/AdminViewStatus';
+import StudentDetails from './P-Dept/StudentDetails';
 
 const App = () => {
   return (
@@ -37,6 +38,8 @@ const App = () => {
             <Route path="view-applied-status" element={<ViewAppliedStatus />} />
             <Route path="view-students" element={<ViewStudents />} />
             <Route path="update-status" element={<UpdateStatus />} />
+            <Route path="student-details/:id" element={<StudentDetails />} />
+
           </Route>
 
           {/* Student Routes */}

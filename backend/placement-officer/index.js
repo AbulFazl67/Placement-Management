@@ -131,3 +131,54 @@ app.post("/api/getStudentApplications", (req, res) => {
 });
 
 
+app.post("/api/UpdateStudentApplicationStatus", (req, res) => {
+    const { application_id, status } = req.body;
+    console.warn(req.body);
+    const sql = "UPDATE applications SET status = ? WHERE application_id = ?";
+    connection.execute(sql, [status, application_id], (error, result) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).send({ message: "Cannot update application status" });
+        } else {
+            console.log("Application status updated successfully");
+            return res.status(200).send({ result: "Application status updated successfully" });
+        }
+    });
+});
+
+
+app.get("/api/getStudents" , (req, res) => {
+    const sql = "select * from users where role = 'student'"
+    connection.execute(sql , (error , result)=>{
+        if(error){
+            console.error(error);
+            return res.status(500).send({ message: "Cannot fetch students" });
+        }
+        else{
+            console.log("Students fetched successfully");
+            return res.status(200).send({ students: result });
+        }
+    })
+})
+
+app.get("/api/getStudentsApplications/:student_id" , (req ,res)=>{
+    const {student_id} = req.params
+    console.log("Student ID:", student_id);
+    const sql =`select st.* ,
+     sp.student_id ,
+     j.title as job_title ,
+     a.status as application_status
+     from users st join student_profiles sp on sp.user_id=st.user_id 
+     join applications a on a.student_id=sp.student_id 
+     join job_posts j on j.job_id=a.job_id
+     where st.user_id=?`
+
+    connection.execute(sql ,[student_id] , (error , result)=>{
+        if(error){
+            console.error(error);
+            res.status(500).json({error})
+        }else{
+            res.status(200).json({data:result})
+        }
+    })
+})
