@@ -110,13 +110,14 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    console.warn("login called")
     if (!user.email || !user.password) {
       alert("Please enter both email and password.");
       return;
     }
 
     try {
+      console.warn("callinh apu")
       const response = await fetch("http://localhost:3000/api/login", {
         method: "POST",
         headers: {

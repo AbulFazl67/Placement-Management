@@ -4,6 +4,7 @@ const query = 'select * from users'
 connection.execute(query,(error,result)=>{
     if(error){
         console.log('cannot fetch data')
+        console.log(error)
     }else{
         console.log(result)
     }
