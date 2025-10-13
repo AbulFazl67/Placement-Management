@@ -1,0 +1,141 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+/* StudentProfile.css */
+
+/* Main container for the whole profile page */
+.profile-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Heading style */
+.profile-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+/* The card holding all the profile information */
+.profile-card {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Each row (e.g., Name, Email) */
+.profile-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Last section should not have a bottom border */
+.profile-section:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* Label styling (Name:, Email:, etc.) */
+.profile-section label {
+  font-weight: bold;
+  color: #555;
+  width: 150px; /* Fixed width for alignment */
+  flex-shrink: 0; /* Prevents the label from shrinking */
+}
+
+/* Text value styling */
+.profile-section p {
+  margin: 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+/* Input and textarea styling for edit mode */
+.profile-section input[type="text"],
+.profile-section input[type="email"],
+.profile-section input[type="date"],
+.profile-section textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Focus effect for inputs */
+.profile-section input:focus,
+.profile-section textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.profile-section textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Styling for file input */
+.profile-section input[type="file"] {
+    border: none;
+}
+
+/* Container for buttons at the bottom */
+.profile-buttons {
+  display: flex;
+  justify-content: flex-end; /* Pushes buttons to the right */
+  gap: 10px; /* Space between buttons */
+  margin-top: 30px;
+}
+
+/* Base button style */
+.profile-buttons button {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+.profile-buttons button:active {
+    transform: scale(0.98);
+}
+
+/* Specific styles for each button */
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+}
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: white;
+}
+.save-btn:hover {
+  background-color: #218838;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+}
+.cancel-btn:hover {
+  background-color: #5a6268;
+}

@@ -15,6 +15,7 @@ import StudentDashboard from "./Student/StudentDashboard";
 import ViewJobs from "./Student/ViewJobs";
 import Apply from "./Student/Apply";
 import ViewApplicationStatus from "./Student/ViewApplicationStatus";
+import StudentProfile from "./Student/StudentProfile";
 
 import AdminLayout from './Admin/AdminLayout';
 import AdminDashboard from './Admin/AdminDashboard';
@@ -45,9 +46,11 @@ const App = () => {
           {/* Student Routes */}
           <Route path="student" element={<StudentLayout />}>
             <Route path="dashboard" element={<StudentDashboard />} />
+            <Route path="profile" element={<StudentProfile />} />
             <Route path="view-jobs" element={<ViewJobs />} />
             <Route path="apply" element={<Apply />} />
             <Route path="view-application-status" element={<ViewApplicationStatus />} />
+            
           </Route>
 
            {/* Admin Routes */}
