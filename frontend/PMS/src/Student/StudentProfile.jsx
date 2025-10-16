@@ -1,28 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./StudentProfile.css";
 
 const StudentProfile = () => {
   const [profile, setProfile] = useState({
-    name: "Abul Fazl",
-    email: "abul@gmail.com",
-    phone: "9876543210",
-    dob: "2003-05-10",
-    course: "MCA",
-    semester: "1st Year",
-    skills: "React, HTML, CSS, MySQL",
+    name: "",
+    email: "",
+    phone: "",
+    dob: "",
+    course: "",
+    semester: "",
+    skills: "",
     resume: "",
   });
 
   const [editMode, setEditMode] = useState(false);
 
+  // ✅ Fetch user_id from localStorage and call API
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (!storedUser) return;
+
+    const userId = storedUser.user_id;
+
+    axios
+      .get(`http://localhost:3000/api/profile/${userId}`)
+      .then((res) => {
+        if (res.data && res.data.data) {
+          setProfile(res.data.data);
+        }
+      })
+      .catch((err) => console.error("Error fetching profile:", err));
+  }, []);
+
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
   };
 
-  const handleSave = () => {
-    // backend call here (axios/fetch)
-    alert("Profile Updated Successfully ✅");
-    setEditMode(false);
+  // ✅ Update Profile in Database
+  const handleSave = async () => {
+    try {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (!storedUser) return alert("User not found!");
+
+      const userId = storedUser.user_id;
+
+      await axios.put(`http://localhost:3000/update-profile/${userId}`, {
+        phone: profile.phone,
+        dob: profile.dob,
+        course: profile.course,
+        semester: profile.semester,
+        skills: profile.skills,
+        resume: profile.resume,
+      });
+
+      alert("✅ Profile Updated Successfully!");
+      setEditMode(false);
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      alert("❌ Failed to update profile!");
+    }
   };
 
   return (
@@ -33,7 +70,12 @@ const StudentProfile = () => {
         <div className="profile-section">
           <label>Name:</label>
           {editMode ? (
-            <input type="text" name="name" value={profile.name} onChange={handleChange} />
+            <input
+              type="text"
+              name="name"
+              value={profile.name}
+              onChange={handleChange}
+            />
           ) : (
             <p>{profile.name}</p>
           )}
@@ -47,7 +89,12 @@ const StudentProfile = () => {
         <div className="profile-section">
           <label>Phone:</label>
           {editMode ? (
-            <input type="text" name="phone" value={profile.phone} onChange={handleChange} />
+            <input
+              type="text"
+              name="phone"
+              value={profile.phone}
+              onChange={handleChange}
+            />
           ) : (
             <p>{profile.phone}</p>
           )}
@@ -56,7 +103,12 @@ const StudentProfile = () => {
         <div className="profile-section">
           <label>Date of Birth:</label>
           {editMode ? (
-            <input type="date" name="dob" value={profile.dob} onChange={handleChange} />
+            <input
+              type="date"
+              name="dob"
+              value={profile.dob}
+              onChange={handleChange}
+            />
           ) : (
             <p>{profile.dob}</p>
           )}
@@ -65,7 +117,12 @@ const StudentProfile = () => {
         <div className="profile-section">
           <label>Course:</label>
           {editMode ? (
-            <input type="text" name="course" value={profile.course} onChange={handleChange} />
+            <input
+              type="text"
+              name="course"
+              value={profile.course}
+              onChange={handleChange}
+            />
           ) : (
             <p>{profile.course}</p>
           )}
@@ -74,7 +131,12 @@ const StudentProfile = () => {
         <div className="profile-section">
           <label>Semester:</label>
           {editMode ? (
-            <input type="text" name="semester" value={profile.semester} onChange={handleChange} />
+            <input
+              type="text"
+              name="semester"
+              value={profile.semester}
+              onChange={handleChange}
+            />
           ) : (
             <p>{profile.semester}</p>
           )}
@@ -83,7 +145,11 @@ const StudentProfile = () => {
         <div className="profile-section">
           <label>Skills:</label>
           {editMode ? (
-            <textarea name="skills" value={profile.skills} onChange={handleChange} />
+            <textarea
+              name="skills"
+              value={profile.skills}
+              onChange={handleChange}
+            />
           ) : (
             <p>{profile.skills}</p>
           )}
@@ -94,7 +160,9 @@ const StudentProfile = () => {
           {editMode ? (
             <input type="file" name="resume" />
           ) : profile.resume ? (
-            <a href={profile.resume} target="_blank" rel="noreferrer">View Resume</a>
+            <a href={profile.resume} target="_blank" rel="noreferrer">
+              View Resume
+            </a>
           ) : (
             <p>No Resume Uploaded</p>
           )}
@@ -103,11 +171,23 @@ const StudentProfile = () => {
         <div className="profile-buttons">
           {editMode ? (
             <>
-              <button onClick={handleSave} className="save-btn">Save</button>
-              <button onClick={() => setEditMode(false)} className="cancel-btn">Cancel</button>
+              <button onClick={handleSave} className="save-btn">
+                Save
+              </button>
+              <button
+                onClick={() => setEditMode(false)}
+                className="cancel-btn"
+              >
+                Cancel
+              </button>
             </>
           ) : (
-            <button onClick={() => setEditMode(true)} className="edit-btn">Edit Profile</button>
+            <button
+              onClick={() => setEditMode(true)}
+              className="edit-btn"
+            >
+              Edit Profile
+            </button>
           )}
         </div>
       </div>

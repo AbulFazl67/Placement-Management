@@ -30,8 +30,8 @@ app.post('/api/signup', (req, res) => {
         if (!err) {
             if (role === "student") {
                 // yaha table name correct kiya aur student_id ko insertId se liya
-                const studentQuery = "INSERT INTO student_profiles (user_id, skills, job_preference) VALUES (?, ?, ?)";
-                connection.execute(studentQuery, [result.insertId, skills, job_preference], (studentErr, studentResult) => {
+                const studentQuery = "INSERT INTO profiles (user_id, skills) VALUES (?, ?)";
+                connection.execute(studentQuery, [result.insertId, skills], (studentErr, studentResult) => {
                     if (studentErr) {
                         console.error("Error inserting into student_profiles table:", studentErr);
                         res.status(500).send({ error: studentErr });

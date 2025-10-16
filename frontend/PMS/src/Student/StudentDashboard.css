@@ -1,0 +1,93 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.dashboard-container {
+    background-color: #1e293b;
+  padding: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa; /* Light grey background for the whole area */
+  border-radius: 8px; /* Match the layout's content area */
+}
+
+.dashboard-header {
+  margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+  font-size: 2.2rem;
+  color: #1e293b; /* Dark blue, matching sidebar */
+  margin-bottom: 5px;
+}
+
+.dashboard-header p {
+  font-size: 1rem;
+  color: #6c757d; /* Grey text */
+}
+
+/* This is the main grid for the cards */
+.stats-grid {
+  display: grid;
+  /* Creates 4 columns on big screens, 2 on tablets, and 1 on mobile */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px; /* Space between cards */
+}
+
+/* Base style for all cards */
+.stat-card {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-left: 5px solid; /* Colored border on the left */
+}
+
+.stat-card:hover {
+  transform: translateY(-5px); /* Lifts the card up on hover */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stat-number {
+  font-size: 3rem; /* Big number */
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Color coding for each card */
+.stat-card.total {
+  border-color: #3b82f6; /* Blue */
+}
+.stat-card.total .stat-number {
+  color: #3b82f6;
+}
+
+.stat-card.pending {
+  border-color: #f59e0b; /* Amber/Yellow */
+}
+.stat-card.pending .stat-number {
+  color: #f59e0b;
+}
+
+.stat-card.accepted {
+  border-color: #10b981; /* Green */
+}
+.stat-card.accepted .stat-number {
+  color: #10b981;
+}
+
+.stat-card.rejected {
+  border-color: #ef4444; /* Red */
+}
+.stat-card.rejected .stat-number {
+  color: #ef4444;
+}

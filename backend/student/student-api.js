@@ -1,35 +1,35 @@
-const app=require('../express.js')
-const db=require('../db.js')
+const app = require('../express.js')
+const db = require('../db.js')
 
 
-app.post('/api/student-register' , (req , res)=>{
-    const {name , email , password } = {...req.body}
-    console.warn(req.body.email)
-    console.warn(email , password)
-     const query = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
+app.post('/api/student-register', (req, res) => {
+  const { name, email, password } = { ...req.body }
+  console.warn(req.body.email)
+  console.warn(email, password)
+  const query = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
 
-    db.execute(query, [name, email, password, "Student"], (err, results) => {
-        if(err){
-            res.status(500).json({error:err})
-        }else{
-             res.status(200).json({data:"Student Registered Successfully"})
-        }
-    })
-    
+  db.execute(query, [name, email, password, "Student"], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: err })
+    } else {
+      res.status(200).json({ data: "Student Registered Successfully" })
+    }
+  })
+
 })
 
-app.post('/api/applyJobs' , (req , res)=>{
-    const {student_id , job_id} = {...req.body}
-    console.warn(req.body)
-     const query = "INSERT INTO applications (student_id, job_id, status) VALUES (?, ?, ?)";
-    db.execute(query, [student_id , job_id , "Applied"], (err, results) => {
-        if(err){
-            console.warn(err)
-            res.status(500).json({error:err})
-        }else{
-             res.status(200).json({data:"Job Applied Successfully"})
-        }
-    })
+app.post('/api/applyJobs', (req, res) => {
+  const { student_id, job_id } = { ...req.body }
+  console.warn(req.body)
+  const query = "INSERT INTO applications (student_id, job_id, status) VALUES (?, ?, ?)";
+  db.execute(query, [student_id, job_id, "Applied"], (err, results) => {
+    if (err) {
+      console.warn(err)
+      res.status(500).json({ error: err })
+    } else {
+      res.status(200).json({ data: "Job Applied Successfully" })
+    }
+  })
 })
 
 app.get('/api/appliedJobs/:student_id', (req, res) => {
@@ -83,6 +83,58 @@ app.get('/api/getUserid/:student_id', (req, res) => {
     }
   });
 });
+
+// abul fazl
+app.get('/api/profile/:user_id', (req, res) => {
+  const { user_id } = req.params;
+
+  const sql = `
+    SELECT u.*, sp.*
+    FROM users u
+    LEFT JOIN profiles sp ON u.user_id = sp.user_id
+    WHERE u.user_id = ?;
+  `;
+
+  db.execute(sql, [user_id], (err, results) => {
+    if (err) {
+      console.error("SQL Error:", err);
+      // just log the error, but don't send 500
+      return res.json({ data: null });
+    }
+
+    // even if profile not found, send whatever data is there
+    if (results.length === 0) {
+      return res.json({ data: null });
+    }
+
+    return res.json({ data: results[0] });
+  });
+});
+
+
+app.put("/update-profile/:user_id", (req, res) => {
+  const user_id = req.params.user_id;
+  const { phone, dob, course, semester, skills, resume } = req.body;
+
+  const sql = `
+    UPDATE profiles 
+    SET phone = ?, dob = ?, course = ?, semester = ?, skills = ?, resume = ?
+    WHERE user_id = ?
+  `;
+
+  const values = [phone, dob, course, semester, skills, resume, user_id];
+
+  db.query(sql, values, (err, result) => {
+    if (err) return res.status(500).json({ message: "Database error" });
+
+    if (result.affectedRows === 0)
+      return res.json({ message: "No record found for this user_id" });
+
+    res.json({ message: "Profile updated successfully" });
+  });
+});
+
+// end here
 
 
 /* app.post("/api/applyJob", (req, res) => {
