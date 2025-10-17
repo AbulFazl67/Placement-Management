@@ -1,4 +1,4 @@
-*{
+/* *{
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
@@ -8,8 +8,8 @@
     background-color: #1e293b;
   padding: 30px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa; /* Light grey background for the whole area */
-  border-radius: 8px; /* Match the layout's content area */
+  background-color: #f8f9fa;
+  border-radius: 8px; 
 }
 
 .dashboard-header {
@@ -18,24 +18,21 @@
 
 .dashboard-header h1 {
   font-size: 2.2rem;
-  color: #1e293b; /* Dark blue, matching sidebar */
+  color: #1e293b;
   margin-bottom: 5px;
 }
 
 .dashboard-header p {
   font-size: 1rem;
-  color: #6c757d; /* Grey text */
+  color: #6c757d;
 }
 
-/* This is the main grid for the cards */
 .stats-grid {
   display: grid;
-  /* Creates 4 columns on big screens, 2 on tablets, and 1 on mobile */
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px; /* Space between cards */
+  gap: 25px; 
 }
 
-/* Base style for all cards */
 .stat-card {
   background-color: #ffffff;
   padding: 25px;
@@ -43,16 +40,16 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
   text-align: center;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  border-left: 5px solid; /* Colored border on the left */
+  border-left: 5px solid;
 }
 
 .stat-card:hover {
-  transform: translateY(-5px); /* Lifts the card up on hover */
+  transform: translateY(-5px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .stat-number {
-  font-size: 3rem; /* Big number */
+  font-size: 3rem; 
   font-weight: 700;
   margin-bottom: 8px;
 }
@@ -63,31 +60,125 @@
   font-weight: 500;
 }
 
-/* Color coding for each card */
 .stat-card.total {
-  border-color: #3b82f6; /* Blue */
+  border-color: #3b82f6; 
 }
 .stat-card.total .stat-number {
   color: #3b82f6;
 }
 
 .stat-card.pending {
-  border-color: #f59e0b; /* Amber/Yellow */
+  border-color: #f59e0b; 
 }
 .stat-card.pending .stat-number {
   color: #f59e0b;
 }
 
 .stat-card.accepted {
-  border-color: #10b981; /* Green */
+  border-color: #10b981;
 }
 .stat-card.accepted .stat-number {
   color: #10b981;
 }
 
 .stat-card.rejected {
-  border-color: #ef4444; /* Red */
+  border-color: #ef4444; 
 }
 .stat-card.rejected .stat-number {
   color: #ef4444;
+} */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  padding: 30px;
+  background-color: var(--background, #f4f6f9);
+  border-radius: var(--radius, 12px);
+}
+
+/* Header */
+.dashboard-header {
+  margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary, #1e293b);
+  margin-bottom: 5px;
+}
+
+.dashboard-header p {
+  font-size: 1rem;
+  color: var(--muted-foreground, #6c757d);
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+/* Stat Card */
+.stat-card {
+  background-color: var(--card, #ffffff);
+  padding: 25px;
+  border-radius: var(--radius, 12px);
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  border-left: 5px solid;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stat-number {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--muted-foreground, #6c757d);
+}
+
+/* Card Colors */
+.stat-card.total {
+  border-color: var(--primary, #3b82f6);
+}
+.stat-card.total .stat-number {
+  color: var(--primary, #3b82f6);
+}
+
+.stat-card.pending {
+  border-color: var(--secondary, #f59e0b);
+}
+.stat-card.pending .stat-number {
+  color: var(--secondary, #f59e0b);
+}
+
+.stat-card.accepted {
+  border-color: var(--accent, #10b981);
+}
+.stat-card.accepted .stat-number {
+  color: var(--accent, #10b981);
+}
+
+.stat-card.rejected {
+  border-color: var(--destructive, #ef4444);
+}
+.stat-card.rejected .stat-number {
+  color: var(--destructive, #ef4444);
 }
