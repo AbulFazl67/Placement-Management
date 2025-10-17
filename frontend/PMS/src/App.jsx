@@ -9,6 +9,7 @@ import PostJob from './P-Dept/PostJob';
 import ViewAppliedStatus from './P-Dept/ViewAppliedStatus';
 import ViewStudents from './P-Dept/ViewStudents';
 import UpdateStatus from './P-Dept/UpdateStatus';
+import OfficerJobList from "./P-Dept/OfficerJobList";
 
 import StudentLayout from "./Student/StudentLayout";
 import StudentDashboard from "./Student/StudentDashboard";
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="view-students" element={<ViewStudents />} />
             <Route path="update-status" element={<UpdateStatus />} />
             <Route path="student-details/:id" element={<StudentDetails />} />
+            <Route path="my-jobs" element={<OfficerJobList />} />
 
           </Route>
 

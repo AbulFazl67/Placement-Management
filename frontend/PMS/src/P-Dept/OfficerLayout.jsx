@@ -21,6 +21,8 @@ const OfficerLayout = () => {
           <NavLink to="/officer/view-students">View Students</NavLink>
           <NavLink to="/officer/view-applied-status">View Applied Status</NavLink>
           <NavLink to="/officer/update-status">Update Status</NavLink>
+          <NavLink to="/officer/my-jobs">My Jobs</NavLink>
+
 
           <button className="logout-btn" onClick={handleLogout}>
             Log-Out

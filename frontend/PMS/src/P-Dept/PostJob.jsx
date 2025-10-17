@@ -1,66 +1,91 @@
-import React, { useState  , useEffect} from "react";
-import "./P-Dept.css";
+import React, { useState, useEffect } from "react";
+import "./postjob.css";
 
 const PostJob = () => {
-
-    const [userInfo, setUserInfo] = useState(null)
+  const [userInfo, setUserInfo] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ text: "", type: "" });
   const [formData, setFormData] = useState({
-    officer_id:"",
+    officer_id: "",
     title: "",
     description: "",
     criteria: "",
-    apply_link: ""
+    apply_link: "",
   });
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      const parsedUser = JSON.parse(storedUser); // string -> object
+      const parsedUser = JSON.parse(storedUser);
       setUserInfo(parsedUser);
-
-      // agar officer_id chahiye to direct set kar do
       setFormData((prev) => ({
         ...prev,
-        officer_id: parsedUser.id || parsedUser.officer_id || "" 
+        officer_id: parsedUser.user_id || "",
       }));
     }
   }, []);
-
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    if (!formData.title || !formData.description || !formData.criteria || !formData.apply_link) {
+      setMessage({ text: "All fields are required", type: "error" });
+      return false;
+    }
+    // Basic URL validation
+    try {
+      new URL(formData.apply_link);
+    } catch {
+      setMessage({ text: "Invalid Apply Link URL", type: "error" });
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage({ text: "", type: "" });
 
+    if (!validateForm()) return;
+
+    setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/postJobs", {
+      const response = await fetch("http://localhost:3000/api/postJobs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       const result = await response.json();
-      alert(result.result || result.message);
       if (response.ok) {
-        setFormData({
-          officer_id: "",
+        setMessage({ text: "Job posted successfully!", type: "success" });
+        setFormData((prev) => ({
+          ...prev,
           title: "",
           description: "",
           criteria: "",
-          apply_link: ""
-        });
+          apply_link: "",
+        }));
+      } else {
+        setMessage({ text: result.message || "Failed to post job", type: "error" });
       }
     } catch (error) {
       console.error("Error posting job:", error);
-      alert("Failed to post job");
+      setMessage({ text: "Server error. Try again later.", type: "error" });
     }
+    setLoading(false);
   };
 
   return (
     <div className="postjob-container">
       <h2>Post a New Job</h2>
+      {message.text && (
+        <div className={`message ${message.type}`}>
+          {message.text}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="postjob-form">
         <div className="form-group">
           <label>Officer ID</label>
@@ -68,8 +93,7 @@ const PostJob = () => {
             type="text"
             name="officer_id"
             value={formData.officer_id}
-            onChange={handleChange}
-            required
+            readOnly
           />
         </div>
 
@@ -80,7 +104,6 @@ const PostJob = () => {
             name="title"
             value={formData.title}
             onChange={handleChange}
-            required
             placeholder="e.g., Software Engineer"
           />
         </div>
@@ -91,7 +114,6 @@ const PostJob = () => {
             name="description"
             value={formData.description}
             onChange={handleChange}
-            required
             placeholder="Enter job description"
           ></textarea>
         </div>
@@ -102,7 +124,6 @@ const PostJob = () => {
             name="criteria"
             value={formData.criteria}
             onChange={handleChange}
-            required
             placeholder="e.g., MCA, B.Tech, min 60%..."
           ></textarea>
         </div>
@@ -114,13 +135,12 @@ const PostJob = () => {
             name="apply_link"
             value={formData.apply_link}
             onChange={handleChange}
-            required
             placeholder="https://company.com/careers/apply"
           />
         </div>
 
-        <button type="submit" className="btn-submit">
-          Post Job
+        <button type="submit" className="btn-submit" disabled={loading}>
+          {loading ? "Posting..." : "Post Job"}
         </button>
       </form>
     </div>

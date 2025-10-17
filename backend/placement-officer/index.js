@@ -183,3 +183,41 @@ app.get("/api/getStudentsApplications/:student_id" , (req ,res)=>{
         }
     })
 })
+
+
+// fazal creaated joblist api
+
+// Post a job
+// app.post("/api/postJobs", (req, res) => {
+//   const { officer_id, title, description, criteria, apply_link } = req.body;
+//   connection.execute(
+//     "INSERT INTO jobs (officer_id, title, description, criteria, apply_link) VALUES (?, ?, ?, ?, ?)",
+//     [officer_id, title, description, criteria, apply_link],
+//     (err, result) => {
+//       if (err) return res.status(500).json({ message: "DB Error" });
+//       res.json({ message: "Job posted successfully", jobId: result.insertId });
+//     }
+//   );
+// });
+
+// Get jobs for an officer
+// app.get("/api/officerJobs/:officerId", (req, res) => {
+//   const officerId = req.params.officerId;
+//   connection.execute(
+//     "SELECT * FROM jobs WHERE officer_id = ?",
+//     [officerId],
+//     (err, result) => {
+//       if (err) return res.status(500).json({ message: "DB Error" });
+//       res.json({ jobs: result });
+//     }
+//   );
+// });
+
+// Delete a job
+// app.delete("/api/deleteJob/:jobId", (req, res) => {
+//   const jobId = req.params.jobId;
+//   connection.execute("DELETE FROM jobs WHERE id = ?", [jobId], (err, result) => {
+//     if (err) return res.status(500).json({ message: "DB Error" });
+//     res.json({ message: "Job deleted successfully" });
+//   });
+// });
