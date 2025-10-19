@@ -151,3 +151,42 @@ app.put("/update-profile/:user_id", (req, res) => {
         }
     });
 }); */
+
+app.get('/api/student/jobs', (req, res) => {
+  const sql = "SELECT * FROM job_posts"; // ya tu apni table ka naam de
+  
+  db.execute(sql, (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "Database error" });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
+app.get('/api/student/applications/:student_id', (req, res) => {
+  const { student_id } = req.params;
+
+  const sql = `
+    SELECT 
+      jp.title,
+      jp.description,
+      a.status,
+      a.applied_at
+    FROM applications a
+    JOIN job_posts jp ON a.job_id = jp.job_id
+    WHERE a.student_id = ?
+  `;
+
+  db.execute(sql, [student_id], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    if (results.length === 0) {
+      return res.status(200).json([]); // No applications
+    }
+    res.status(200).json(results);
+  });
+});
