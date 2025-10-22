@@ -67,7 +67,7 @@ const OfficerJobList = () => {
           </thead>
           <tbody>
             {jobs.map((job) => (
-              <tr key={job.id}>
+              <tr key={job.job_id}>
                 <td>{job.title}</td>
                 <td>{job.description}</td>
                 <td>{job.criteria}</td>

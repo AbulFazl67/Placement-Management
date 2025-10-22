@@ -221,3 +221,20 @@ app.get("/api/getStudentsApplications/:student_id" , (req ,res)=>{
 //     res.json({ message: "Job deleted successfully" });
 //   });
 // });
+
+app.listen(5000, () => {
+  console.log("✅ Server running on http://localhost:5000");
+});
+
+app.get("/api/officerJobs/:officerId", (req, res) => {
+  const officerId = req.params.officerId;
+  const sql = "SELECT * FROM job_posts WHERE officer_id = ?";
+
+  connection.execute(sql, [officerId], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "DB Error" });
+    }
+    res.status(200).json({ jobs: result });
+  });
+});

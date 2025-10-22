@@ -10,7 +10,7 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "student", // default role
+    role: "student", 
     skills: "",
     job_preference: "",
     placed: "no"
