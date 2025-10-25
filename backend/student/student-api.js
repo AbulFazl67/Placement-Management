@@ -1,5 +1,19 @@
 const app = require('../express.js')
 const db = require('../db.js')
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // folder jaha photo store hoga
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // unique name
+  },
+});
+
+const upload = multer({ storage });
+
 
 
 app.post('/api/student-register', (req, res) => {
@@ -185,8 +199,32 @@ app.get('/api/student/applications/:student_id', (req, res) => {
       return res.status(500).json({ error: "Database error" });
     }
     if (results.length === 0) {
-      return res.status(200).json([]); // No applications
+      return res.status(200).json([]); 
     }
     res.status(200).json(results);
   });
 });
+
+
+app.post("/api/upload-photo/:user_id", upload.single("photo"), (req, res) => {
+  if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+  const photoPath = `/uploads/${req.file.filename}`;
+
+  const sql = "UPDATE profiles SET photo=? WHERE user_id=?";
+  db.query(sql, [photoPath, req.params.user_id], (err, result) => {
+    if (err) return res.status(500).json({ message: "Database error" });
+    res.json({ photo: photoPath });
+  });
+});
+
+app.post("/api/upload-resume/:user_id", upload.single("resume"), (req, res) => {
+  if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+  const resumePath = `/uploads/${req.file.filename}`;
+
+  const sql = "UPDATE profiles SET resume=? WHERE user_id=?";
+  db.query(sql, [resumePath, req.params.user_id], (err, result) => {
+    if (err) return res.status(500).json({ message: "Database error" });
+    res.json({ resume: resumePath });
+  });
+});
+
