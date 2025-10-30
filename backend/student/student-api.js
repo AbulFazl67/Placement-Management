@@ -205,13 +205,15 @@ app.get('/api/student/applications/:student_id', (req, res) => {
   });
 });
 
-
 app.post("/api/upload-photo/:user_id", upload.single("photo"), (req, res) => {
   if (!req.file) return res.status(400).json({ message: "No file uploaded" });
   const photoPath = `/uploads/${req.file.filename}`;
-
-  const sql = "UPDATE profiles SET photo=? WHERE user_id=?";
-  db.query(sql, [photoPath, req.params.user_id], (err, result) => {
+  const sql = `
+    INSERT INTO profiles (user_id, photo)
+    VALUES (?, ?)
+    ON DUPLICATE KEY UPDATE photo = VALUES(photo)
+  `;
+  db.query(sql, [req.params.user_id, photoPath], (err) => {
     if (err) return res.status(500).json({ message: "Database error" });
     res.json({ photo: photoPath });
   });
@@ -220,11 +222,15 @@ app.post("/api/upload-photo/:user_id", upload.single("photo"), (req, res) => {
 app.post("/api/upload-resume/:user_id", upload.single("resume"), (req, res) => {
   if (!req.file) return res.status(400).json({ message: "No file uploaded" });
   const resumePath = `/uploads/${req.file.filename}`;
-
-  const sql = "UPDATE profiles SET resume=? WHERE user_id=?";
-  db.query(sql, [resumePath, req.params.user_id], (err, result) => {
+  const sql = `
+    INSERT INTO profiles (user_id, resume)
+    VALUES (?, ?)
+    ON DUPLICATE KEY UPDATE resume = VALUES(resume)
+  `;
+  db.query(sql, [req.params.user_id, resumePath], (err) => {
     if (err) return res.status(500).json({ message: "Database error" });
     res.json({ resume: resumePath });
   });
 });
+
 
